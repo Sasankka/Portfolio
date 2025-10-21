@@ -155,3 +155,31 @@ section h2 {
 .project-links a:hover {
     color: #4da3ff; /* Světlejší modrá při najetí */
 }
+
+/* 8. Stylování sekce "About Me" */
+.about-content {
+    display: flex; /* Použijeme Flexbox k položení prvků vedle sebe */
+    align-items: center; /* Vertikálně vycentruje fotku a text */
+    gap: 40px; /* Mezera mezi fotkou a textem */
+}
+
+.about-image {
+    flex: 1; /* Říká obrázku, aby zabral 1 díl místa */
+    max-width: 300px; /* Ale ne víc než 300px */
+}
+
+.about-image img {
+    width: 100%;
+    border-radius: 50%; /* Trik na vytvoření kulatého obrázku */
+    border: 3px solid #333; /* Jemný rámeček */
+}
+
+.about-text {
+    flex: 2; /* Říká textu, aby zabral 2 díly místa (bude 2x širší) */
+}
+
+.about-text p {
+    font-size: 1.1rem;
+    color: #bbb;
+    margin-bottom: 20px; /* Odsazení mezi odstavci */
+}
