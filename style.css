@@ -183,3 +183,56 @@ section h2 {
     color: #bbb;
     margin-bottom: 20px; /* Odsazení mezi odstavci */
 }
+
+/* 9. Stylování kontaktního formuláře */
+#contact-form {
+    max-width: 700px; /* Formulář nebude širší než 700px */
+    margin: 0 auto; /* Vycentruje formulář v .container */
+}
+
+.form-group {
+    margin-bottom: 20px; /* Mezera mezi jednotlivými políčky */
+}
+
+.form-group label {
+    display: block; /* Popisek bude na vlastním řádku */
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+    color: #bbb;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%; /* Políčka zaberou celou šířku formuláře */
+    padding: 15px;
+    font-size: 1rem;
+    color: #f4f4f4; /* Barva psaného textu */
+    background-color: #1a1a1a; /* Pozadí políčka */
+    border: 1px solid #333;
+    border-radius: 5px; /* Lehce zaoblené rohy */
+    
+    /* Vstupní políčka se často nedědí, tak jim nastavíme písmo znovu */
+    font-family: inherit; 
+}
+
+.form-group textarea {
+    min-height: 150px; /* Větší výška pro text zprávy */
+    resize: vertical; /* Dovolí uživateli měnit výšku, ale ne šířku */
+}
+
+.submit-btn {
+    display: inline-block;
+    padding: 15px 30px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #ffffff;
+    background-color: #007bff; /* Modrá, stejná jako v navigaci */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer; /* Změní kurzor na "ručičku" */
+    transition: background-color 0.3s ease-out;
+}
+
+.submit-btn:hover {
+    background-color: #0056b3; /* Tmavší modrá při najetí */
+}
