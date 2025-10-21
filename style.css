@@ -1,0 +1,100 @@
+/* 1. Globální reset a "lepší" box model */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* 2. Základní styly pro celou stránku (body) */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: #121212; /* Tmavě šedé pozadí */
+    color: #f4f4f4; /* Světle šedý text */
+    line-height: 1.6; /* Zlepší čitelnost textu */
+    padding-top: 60px; /* Prostor pro pevnou hlavičku */
+}
+
+/* 3. Hlavička a Navigace */
+header {
+    width: 100%; /* Hlavička bude přes celou šířku */
+    background-color: #1a1a1a; /* Trochu jiná tmavá pro kontrast */
+    border-bottom: 1px solid #333; /* Jemná oddělovací linka */
+    
+    /* Kouzlo s přilepením hlavičky */
+    position: fixed; /* Přilepí hlavičku k okraji okna */
+    top: 0; /* Přilepí ji úplně nahoru */
+    left: 0; /* Přilepí ji úplně doleva */
+    z-index: 1000; /* Zajistí, že je hlavička vždy nahoře (nad ostatním obsahem) */
+}
+
+nav ul {
+    /* Zarovnáme položky menu vedle sebe */
+    display: flex;
+    justify-content: center; /* Vycentruje je doprostřed stránky */
+    list-style-type: none; /* Skryje ty ošklivé odrážky u seznamu */
+}
+
+nav a {
+    display: block; /* Důležité, aby se odkaz choval jako "blok" a mohli jsme mu nastavit padding */
+    padding: 20px 25px; /* Vnitřní odsazení (20px nahoře/dole, 25px vlevo/vpravo) */
+    text-decoration: none; /* Skryje podtržení u odkazů */
+    color: #f4f4f4; /* Barva textu */
+    font-weight: 600; /* Mírně tučné písmo */
+    
+    /* Pěkný přechodový efekt při najetí myší */
+    transition: background-color 0.3s ease-out;
+}
+
+/* Toto se stane, když na odkaz najedeš myší */
+nav a:hover {
+    background-color: #007bff; /* Zvolil jsem modrou, můžeš dát jakoukoliv chceš */
+    color: #ffffff; /* Text bude při najetí bílý */
+}
+
+/* 4. Layout Kontejner */
+/* Tuto třídu budeme dávat dovnitř sekcí, aby obsah nebyl příliš široký */
+.container {
+    width: 90%; /* Obsah bude zabírat 90% šířky */
+    max-width: 1100px; /* Ale maximálně 1100px (důležité pro velké monitory) */
+    margin: 0 auto; /* Trik, který vycentruje kontejner horizontálně */
+}
+
+/* 5. Základní stylování sekcí */
+section {
+    padding: 80px 0; /* 80px nahoře/dole, 0 po stranách (strany řeší kontejner) */
+    border-bottom: 1px solid #333; /* Oddělovací linka */
+}
+
+/* Poslední sekci nechceme mít ohraničenou zespodu */
+section:last-of-type {
+    border-bottom: none;
+}
+
+section h2 {
+    font-size: 2.5rem; /* Větší nadpisy pro sekce */
+    text-align: center; /* Vycentrujeme je */
+    margin-bottom: 40px; /* Odsazení pod nadpisem */
+}
+
+/* 6. Speciální styl pro "Hero" sekci (Home) */
+#home {
+    min-height: 90vh; /* Chceme, aby zabrala skoro celou (90%) výšku obrazovky */
+    padding: 0; /* Zrušíme padding, protože budeme centrovat jinak */
+    
+    /* Použijeme Flexbox pro perfektní vycentrování obsahu */
+    display: flex;
+    flex-direction: column; /* Centrovat pod sebe (vertikálně) */
+    justify-content: center; /* Vycentruje na střed (vertikální osa) */
+    align-items: center; /* Vycentruje na střed (horizontální osa) */
+    text-align: center;
+}
+
+#home h1 {
+    font-size: 3.5rem; /* Opravdu velký nadpis */
+    margin-bottom: 15px;
+}
+
+#home p {
+    font-size: 1.3rem;
+    color: #aaa; /* Mírně zašedlá barva pro podnadpis */
+}
