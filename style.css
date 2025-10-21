@@ -98,3 +98,60 @@ section h2 {
     font-size: 1.3rem;
     color: #aaa; /* Mírně zašedlá barva pro podnadpis */
 }
+
+/* 7. Stylování sekce Projektů */
+.project-grid {
+    display: grid; /* Použijeme moderní CSS Grid! */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Kouzelný řádek */
+    gap: 30px; /* Mezera mezi jednotlivými kartičkami */
+}
+
+.project-card {
+    background-color: #1a1a1a; /* Stejná barva jako hlavička */
+    border: 1px solid #333;
+    border-radius: 8px; /* Zaoblené rohy */
+    overflow: hidden; /* Ořízne vše, co přetéká (např. obrázek) */
+    
+    /* Přidáme jemný stín a přechod pro "zvednutí" při najetí */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+}
+
+.project-card:hover {
+    transform: translateY(-5px); /* Posune kartičku o 5px nahoru */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Zvýrazní stín */
+}
+
+.project-card img {
+    width: 100%; /* Obrázek se roztáhne na celou šířku kartičky */
+    height: 200px; /* Pevná výška pro všechny obrázky */
+    object-fit: cover; /* Zajistí, že se obrázek hezky ořízne, nezkreslí */
+    display: block; /* Odstraní případnou mezeru pod obrázkem */
+}
+
+.project-info {
+    padding: 25px;
+}
+
+.project-info h3 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.project-info p {
+    font-size: 1rem;
+    color: #aaa; /* Jemnější barva pro popisek */
+    margin-bottom: 20px;
+}
+
+.project-links a {
+    text-decoration: none;
+    color: #007bff; /* Modrá barva pro odkazy */
+    margin-right: 15px;
+    font-weight: 600;
+    transition: color 0.3s;
+}
+
+.project-links a:hover {
+    color: #4da3ff; /* Světlejší modrá při najetí */
+}
