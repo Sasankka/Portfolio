@@ -23,7 +23,8 @@
 <main>
 
     <section id="home">
-        <canvas id="hero-canvas"></canvas> <h1>Welcome to my Portfolio</h1>
+        <canvas id="hero-canvas"></canvas>
+        <h1>Welcome to my Portfolio</h1>
         <p>A showcase of my projects and skills.</p>
     </section>
 
@@ -31,84 +32,80 @@
         <div class="container">
             <h2>My Projects</h2>
             
-                <div class="project-grid">
+            <div class="project-grid">
 
-                        <div class="project-card">
-            <img src="https://dummyimage.com/600x400/333/aaa.png&text=My+Portfolio" alt="Náhled portfolia">
-            <div class="project-info">
-                <h3>My Portfolio Website</h3>
-                <p>This portfolio itself, built from scratch using HTML, CSS (Flexbox, Grid), and modern JavaScript (Canvas, Intersection Observer).</p>
-                <div class="project-links">
-                    <a href="https://github.com/Sasankka/Portfolio" target="_blank">View Code (GitHub)</a>
+                <div class="project-card">
+                    <img src="https://dummyimage.com/600x400/333/aaa.png&text=My+Portfolio" alt="Náhled portfolia">
+                    <div class="project-info">
+                        <h3>My Portfolio Website</h3>
+                        <p>This portfolio itself, built from scratch using HTML, CSS (Flexbox, Grid), and modern JavaScript (Canvas, Intersection Observer).</p>
+                        <div class="project-links">
+                            <a href="https://github.com/Sasankka/Portfolio" target="_blank">View Code (GitHub)</a>
+                        </div>
                     </div>
-            </div>
-        </div>
-
-        <div class="project-card">
-            <img src="https://dummyimage.com/600x400/333/aaa.png&text=Python+Backend" alt="Náhled projektu backendu">
-            <div class="project-info">
-                <h3>Contact Form Backend</h3>
-                <p>The next phase for this website. A planned Python backend (using Flask/FastAPI) to make the contact form fully functional.</p>
-                <div class="project-links">
-                    <a href="https://github.com/Sasankka/Portfolio" target="_blank">View Code (GitHub)</a>
                 </div>
-            </div>
-        </div>
 
-        <div class="project-card">
-            <img src="https://dummyimage.com/600x400/333/aaa.png&text=Learning+Sandbox" alt="Náhled projektu sandbox">
-            <div class="project-info">
-                <h3>My Learning Sandbox</h3>
-                <p>A collection of smaller scripts, challenges, and experiments I am using to learn Python and advanced JavaScript. (Work in progress!)</p>
-                <div class="project-links">
-                    <a href="https://github.com/Sasankka/" target="_blank">View on GitHub</a>
+                <div class="project-card">
+                    <img src="https://dummyimage.com/600x400/333/aaa.png&text=Python+Backend" alt="Náhled projektu backendu">
+                    <div class="project-info">
+                        <h3>Contact Form Backend</h3>
+                        <p>The next phase for this website. A planned Python backend (using Flask/FastAPI) to make the contact form fully functional.</p>
+                        <div class="project-links">
+                            <a href="https://github.com/Sasankka/Portfolio" target="_blank">View Code (GitHub)</a>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
 
-    <section id="about">
+                <div class="project-card">
+                    <img src="https://dummyimage.com/600x400/333/aaa.png&text=Learning+Sandbox" alt="Náhled projektu sandbox">
+                    <div class="project-info">
+                        <h3>My Learning Sandbox</h3>
+                        <p>A collection of smaller scripts, challenges, and experiments I am using to learn Python and advanced JavaScript. (Work in progress!)</p>
+                        <div class="project-links">
+                            <a href="https://github.com/Sasankka/" target="_blank">View on GitHub</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div> </div> </section> <section id="about">
         <div class="container">
             <h2>About Me</h2>
             
             <div class="about-content">
-
                 <div class="about-image">
                     <img src="https://dummyimage.com/300x300/333/aaa.png&text=Your+Photo" alt="Profilová fotografie">
                 </div>
-
                 <div class="about-text">
                     <p>Hello! I'm Alexandr, a passionate developer based in [Tvoje Město]. I love building creative and functional web applications.</p>
                     <p>My journey into tech started when [tvůj příběh...]. I'm skilled in technologies like HTML, CSS, JavaScript, and Python, and I'm always eager to learn more.</p>
                     <p>When I'm not coding, you can find me [tvůj koníček...].</p>
                 </div>
+            </div>
+        </div>
+    </section>
 
-            </div> </div> </section>
-
-<section id="contact">
-    <div class="container">
-        <h2>Contact</h2>
-        
-        <form id="contact-form">
+    <section id="contact">
+        <div class="container">
+            <h2>Contact</h2>
             
-            <div class="form-group">
-                <label for="name">Name</label>
-                <input type="text" id="name" name="name" required>
-            </div>
-            
-            <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" id="email" name="email" required>
-            </div>
-            
-            <div class="form-group">
-                <label for="message">Message</label>
-                <textarea id="message" name="message" required></textarea>
-            </div>
-            
-            <button type="submit" class="submit-btn">Send Message</button>
-            <p id="form-status"></p>
-            
-        </form> </div> </section>
+            <form id="contact-form">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" required></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Send Message</button>
+                <p id="form-status"></p>
+            </form>
+        </div>
+    </section>
 
 </main>
 
