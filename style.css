@@ -241,3 +241,20 @@ section h2 {
 nav a.active {
     color: #007bff; /* Modrá barva pro aktivní odkaz */
 }
+
+/* 11. Styly pro zprávu o stavu formuláře */
+#form-status {
+    padding: 15px;
+    margin-top: 20px;
+    border-radius: 5px;
+    font-weight: 600;
+    text-align: center;
+    display: none; /* Normálně je zpráva skrytá */
+}
+
+/* Tuto třídu přidáme pomocí JS */
+.status-success {
+    display: block; /* Zobrazí zprávu */
+    background-color: #28a745; /* Zelená pro úspěch */
+    color: #ffffff;
+}

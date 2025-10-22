@@ -49,4 +49,35 @@ document.addEventListener('DOMContentLoaded', () => {
         observer.observe(section);
     });
 
+    const contactForm = document.getElementById('contact-form');
+    const formStatus = document.getElementById('form-status');
+
+    // Konfigurovatelná doba zobrazení zprávy (v milisekundách)
+    const statusTimeoutDuration = 5000;
+    let statusTimeoutId = null;
+
+    contactForm.addEventListener('submit', (e) => {
+        // 1. Zabráníme výchozímu odeslání (obnovení stránky)
+        e.preventDefault();
+
+        // 2. Zobrazíme zprávu o úspěchu
+        formStatus.textContent = 'Thank you! Your message has been sent.';
+        formStatus.className = 'status-success'; // Přidá zelený styl
+        formStatus.style.display = 'block'; // Ujistíme se, že je viditelná
+
+        // 3. Vyčistíme formulář
+        contactForm.reset();
+
+        // 4. (Volitelné) Skryjeme zprávu po uplynutí statusTimeoutDuration
+        if (statusTimeoutId) {
+            clearTimeout(statusTimeoutId);
+        }
+        statusTimeoutId = setTimeout(() => {
+            formStatus.textContent = '';
+            formStatus.className = '';
+            formStatus.style.display = 'none'; // Skryjeme zprávu po vypršení časovače
+            statusTimeoutId = null;
+        }, statusTimeoutDuration);
+    });
+
 });
