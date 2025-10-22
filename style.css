@@ -78,6 +78,7 @@ section h2 {
 
 /* 6. Speciální styl pro "Hero" sekci (Home) */
 #home {
+    position: relative; /* Pro případné absolutní pozicování v budoucnu */
     min-height: 90vh; /* Chceme, aby zabrala skoro celou (90%) výšku obrazovky */
     padding: 0; /* Zrušíme padding, protože budeme centrovat jinak */
     
@@ -257,4 +258,19 @@ nav a.active {
     display: block; /* Zobrazí zprávu */
     background-color: #28a745; /* Zelená pro úspěch */
     color: #ffffff;
+}
+
+/*12. Stylování pro Hero Canvas */
+#hero-canvas {
+    position: absolute; /* Vyjmeme ho z toku a přilepíme k sekci */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    
+    /* Klíčové: Umístí plátno za ostatní obsah (h1, p) v téže sekci.
+       Nižší z-index znamená "dále vzadu".
+       Text má automaticky z-index 0 nebo vyšší.
+    */
+    z-index: -1;
 }
