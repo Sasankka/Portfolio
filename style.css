@@ -236,3 +236,8 @@ section h2 {
 .submit-btn:hover {
     background-color: #0056b3; /* Tmavší modrá při najetí */
 }
+
+/* 10. Styl pro aktivní odkaz v navigaci */
+nav a.active {
+    color: #007bff; /* Modrá barva pro aktivní odkaz */
+}
