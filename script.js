@@ -1,4 +1,45 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // === 0. Mobilní optimalizace ===
+    const header = document.querySelector('header');
+    let lastScroll = 0;
+    
+    // Detekce scrollování pro header
+    window.addEventListener('scroll', () => {
+        const currentScroll = window.pageYOffset;
+        
+        // Přidání efektu při scrollování
+        if (currentScroll > 50) {
+            header.classList.add('scrolled');
+        } else {
+            header.classList.remove('scrolled');
+        }
+        
+        lastScroll = currentScroll;
+    });
+
+    // Detekce orientace zařízení
+    window.addEventListener('orientationchange', () => {
+        // Počkáme na dokončení změny orientace
+        setTimeout(() => {
+            // Přepočítáme velikost canvasu a částic
+            if (canvas) {
+                resizeCanvas();
+                initParticles();
+            }
+        }, 200);
+    });
+
+    // Optimalizace dotykových událostí
+    document.addEventListener('touchstart', function(e) {
+        if (e.target.tagName === 'A' || e.target.tagName === 'BUTTON') {
+            e.target.classList.add('touch-active');
+        }
+    }, { passive: true });
+
+    document.addEventListener('touchend', function(e) {
+        const activeElements = document.querySelectorAll('.touch-active');
+        activeElements.forEach(el => el.classList.remove('touch-active'));
+    }, { passive: true });
 
     // === 1. Plynulé skrolování ===
     const navLinks = document.querySelectorAll('header nav a');

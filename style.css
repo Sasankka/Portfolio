@@ -3,6 +3,15 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent; /* Odstraní modré zvýraznění při kliknutí na mobilech */
+}
+
+/* Vylepšení touch targetů pro mobilní zařízení */
+button, 
+input[type="submit"],
+a {
+    min-height: 44px; /* Minimální výška pro dobrý touch target */
+    min-width: 44px; /* Minimální šířka pro dobrý touch target */
 }
 
 /* 2. Základní styly pro celou stránku (body) */
@@ -20,22 +29,30 @@ h1, h2, h3, h4, h5, h6 {
 
 /* 3. Hlavička a Navigace */
 header {
-    width: 100%; /* Hlavička bude přes celou šířku */
-    background-color: #1a1a1a; /* Trochu jiná tmavá pro kontrast */
-    border-bottom: 1px solid #333; /* Jemná oddělovací linka */
-    
-    /* Kouzlo s přilepením hlavičky */
-    position: fixed; /* Přilepí hlavičku k okraji okna */
-    top: 0; /* Přilepí ji úplně nahoru */
-    left: 0; /* Přilepí ji úplně doleva */
-    z-index: 1000; /* Zajistí, že je hlavička vždy nahoře (nad ostatním obsahem) */
+    width: 100%;
+    background-color: #1a1a1a;
+    border-bottom: 1px solid #333;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    transition: all 0.3s ease;
 }
 
 nav ul {
-    /* Zarovnáme položky menu vedle sebe */
     display: flex;
-    justify-content: center; /* Vycentruje je doprostřed stránky */
-    list-style-type: none; /* Skryje ty ošklivé odrážky u seznamu */
+    justify-content: center;
+    list-style-type: none;
+    flex-wrap: wrap; /* Dovolí položkám zalamovat na menších obrazovkách */
+    padding: 0;
+    margin: 0;
+}
+
+/* Přidáme stav při scrollování */
+header.scrolled {
+    background-color: rgba(26, 26, 26, 0.95);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
 }
 
 nav a {
@@ -286,5 +303,133 @@ nav a.active {
        Text má automaticky z-index 0 nebo vyšší.
     */
     z-index: -1;
+}
+
+/* === Responzivní Design === */
+/* Tablety (768px a menší) */
+@media screen and (max-width: 768px) {
+    /* Úprava velikosti písma */
+    body {
+        font-size: 15px;
+    }
+
+    #home h1 {
+        font-size: 2.8rem;
+    }
+
+    /* Zmenšení paddingu sekcí */
+    section {
+        padding: 60px 0;
+    }
+
+    /* Úprava about sekce */
+    .about-content {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .about-image {
+        margin-bottom: 30px;
+    }
+
+    /* Úprava velikosti kontejneru */
+    .container {
+        width: 95%;
+    }
+}
+
+/* Mobilní zařízení (480px a menší) */
+@media screen and (max-width: 480px) {
+    /* Základní velikosti */
+    body {
+        font-size: 14px;
+        padding-top: 50px;
+    }
+
+    /* Úprava navigace */
+    header {
+        height: 50px;
+    }
+
+    nav ul {
+        padding: 0 10px;
+    }
+
+    nav a {
+        padding: 15px 15px;
+        font-size: 0.9rem;
+    }
+
+    /* Hero sekce */
+    #home h1 {
+        font-size: 2.2rem;
+        padding: 0 15px;
+    }
+
+    #home p {
+        font-size: 1.1rem;
+        padding: 0 15px;
+    }
+
+    /* Projekty */
+    .project-card {
+        margin-bottom: 20px;
+    }
+
+    .project-info {
+        padding: 20px;
+    }
+
+    /* Formulář */
+    .form-group input,
+    .form-group textarea {
+        padding: 12px;
+    }
+
+    .submit-btn {
+        width: 100%; /* Tlačítko přes celou šířku na mobilech */
+        padding: 12px 20px;
+    }
+
+    /* Menší mezery */
+    section h2 {
+        font-size: 2rem;
+        margin-bottom: 30px;
+    }
+}
+
+/* Velmi malé displeje (320px a menší) */
+@media screen and (max-width: 320px) {
+    nav a {
+        padding: 15px 10px;
+        font-size: 0.8rem;
+    }
+
+    #home h1 {
+        font-size: 1.8rem;
+    }
+
+    .project-info h3 {
+        font-size: 1.2rem;
+    }
+}
+
+/* Fix pro vysoké mobilní displeje */
+@media screen and (max-height: 600px) and (max-width: 768px) {
+    #home {
+        min-height: 100vh;
+    }
+    
+    section {
+        padding: 40px 0;
+    }
+}
+
+/* Podpora pro tmavý režim */
+@media (prefers-color-scheme: dark) {
+    /* Již máme tmavý režim jako výchozí, ale můžeme přidat specifické úpravy */
+    .project-card {
+        background-color: #1f1f1f;
+    }
 }
 
