@@ -13,6 +13,10 @@ body {
     line-height: 1.6; /* Zlepší čitelnost textu */
     padding-top: 60px; /* Prostor pro pevnou hlavičku */
 }
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700; /* Použijeme tučnou variantu */
+}
 
 /* 3. Hlavička a Navigace */
 header {
@@ -46,10 +50,11 @@ nav a {
 }
 
 /* Toto se stane, když na odkaz najedeš myší */
-nav a:hover {
-    background-color: #007bff; /* Zvolil jsem modrou, můžeš dát jakoukoliv chceš */
-    color: #ffffff; /* Text bude při najetí bílý */
-}
+header nav a:hover {
+    background-color: #FF6600; /* Záloha */
+    background-image: linear-gradient(to right, #FF6600 0%, #d35400 100%); /* Gradient */
+    color: #ffffff;
+    }
 
 /* 4. Layout Kontejner */
 /* Tuto třídu budeme dávat dovnitř sekcí, aby obsah nebyl příliš široký */
@@ -147,14 +152,19 @@ section h2 {
 
 .project-links a {
     text-decoration: none;
-    color: #007bff; /* Modrá barva pro odkazy */
-    margin-right: 15px;
     font-weight: 600;
-    transition: color 0.3s;
+    margin-right: 15px;
+
+    
+    background-image: linear-gradient(to right, #FF6600, #e67e22);
+    color: transparent; /* Text uděláme průhledný */
+    background-clip: text;
+    -webkit-background-clip: text; /* Pro starší prohlížeče */
+    transition: all 0.3s;
 }
 
 .project-links a:hover {
-    color: #4da3ff; /* Světlejší modrá při najetí */
+    opacity: 0.8; 
 }
 
 /* 8. Stylování sekce "About Me" */
@@ -227,20 +237,23 @@ section h2 {
     font-size: 1.1rem;
     font-weight: 600;
     color: #ffffff;
-    background-color: #007bff; /* Modrá, stejná jako v navigaci */
     border: none;
     border-radius: 5px;
-    cursor: pointer; /* Změní kurzor na "ručičku" */
-    transition: background-color 0.3s ease-out;
+    cursor: pointer;
+
+    /* Nový gradient */
+    background-image: linear-gradient(to right, #FF6600 0%, #e67e22 100%);
+    transition: all 0.3s ease-out;
+    background-size: 200% auto; /* Pro hover efekt */
 }
 
 .submit-btn:hover {
-    background-color: #0056b3; /* Tmavší modrá při najetí */
+    background-position: right center; /* Efekt posunu gradientu */
 }
 
 /* 10. Styl pro aktivní odkaz v navigaci */
 nav a.active {
-    color: #007bff; /* Modrá barva pro aktivní odkaz */
+    color: #FF6600; /* Oranžová barva pro aktivní odkaz */
 }
 
 /* 11. Styly pro zprávu o stavu formuláře */
@@ -274,3 +287,4 @@ nav a.active {
     */
     z-index: -1;
 }
+

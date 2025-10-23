@@ -39,3 +39,43 @@ Web je vizuálně kompletní. Každá sekce má svůj unikátní a moderní styl
 
 * **Fáze 3: Interaktivita (JavaScript)**
     * Začneme implementací plynulého (animovaného) skrolování po kliknutí na odkazy v navigaci.
+
+
+# Portfolio Project - In Progress
+
+Vítejte v repozitáři mého osobního portfolia. Tento projekt je vytvářen od nuly s cílem ukázat mé dovednosti v moderním webovém vývoji.
+
+---
+
+## Zpráva o postupu: 22. - 23. října 2025
+
+Během posledních dvou dní jsme se zaměřili na **oživení** a **vizuální vylepšení** portfolia. I když jsme narazili na **značné technické problémy a frustraci** při ladění JavaScriptových animací, podařilo se nám dosáhnout stabilního a vylepšeného stavu.
+
+### Dokončené úkoly:
+
+* **Fáze 3: Interaktivita (JavaScript)**
+    * Implementováno **plynulé skrolování** navigace.
+    * Přidáno **automatické zvýraznění aktivní sekce** v navigaci (pomocí `IntersectionObserver`).
+    * Zprovozněn **kontaktní formulář** z pohledu frontendu (zobrazení zprávy, vyčištění polí).
+    * Obnovena a integrována původní, **funkční Canvas animace** (síť bodů s oranžovými čarami) v Hero sekci, po **mnoha neúspěšných pokusech** s alternativními Canvas efekty (galaxie, magic trails), které se nedařilo spolehlivě rozchodit.
+
+* **Vizuální Vylepšení ("Wow" Efekt)**
+    * Změněno barevné schéma: Původní barva byla nahrazena **oranžovými gradienty** pro živější vzhled.
+    * Vylepšena typografie: Pro nadpisy byl přidán font **Poppins** z Google Fonts.
+    * Implementace "scroll-in" animací byla **po dlouhém a frustrujícím ladění prozatím odstraněna**, jelikož `IntersectionObserver` i alternativní metoda pomocí `scroll` eventu způsobovaly problémy a nespolehlivě fungovaly. Kód byl vyčištěn, abychom zajistili stabilitu.
+
+* **Ladění a Git:**
+    * Strávili jsme **značný čas a úsilí** laděním JavaScriptu, bojem s cache prohlížeče a hledáním "tichých" chyb v kódu, což vedlo k **velké frustraci**.
+    * Naučili jsme se řešit konflikty při `git push` a vrátit se ke starší verzi kódu (`git reset`).
+    * Veškerý postup byl průběžně ukládán na GitHub.
+
+### Aktuální stav projektu:
+
+Máme **funkční, vizuálně vylepšenou a interaktivní** webovou stránku se stabilní Canvas animací. Klíčové JavaScriptové funkce (kromě scroll-in animací) běží. Web je **vyčištěný od nefunkčních částí** a připravený na **nasazení na internet**.
+
+### Další kroky (příště):
+
+* **Fáze 5: Nasazení (Deployment)**
+    * Nahrajeme web zdarma na internet pomocí **GitHub Pages**.
+
+I přes všechny překážky jsme se posunuli vpřed. Dobrá práce s výdrží!
