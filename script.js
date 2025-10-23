@@ -90,16 +90,43 @@ if (contactForm) {
             };
 
             // 2. Odešleme data na Flask server pomocí Fetch API
-            fetch('http://127.0.0.1:5000/send_message', { // Cesta definovaná v app.py
+            console.log('Sending data:', data);
+            const jsonData = JSON.stringify(data);
+            console.log('Sending JSON:', jsonData);
+            
+            fetch('http://localhost:5000/send_message', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json', // Říkáme, že posíláme JSON
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
                 },
-                body: JSON.stringify(data), // Převedeme data na JSON text
+                mode: 'cors',
+                credentials: 'omit',
+                body: jsonData
             })
-            .then(response => response.json()) // Zpracujeme odpověď serveru (očekáváme JSON)
+            .then(response => {
+                console.log('Response status:', response.status);
+                console.log('Response headers:', [...response.headers.entries()]);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                return response.text().then(text => {
+                    console.log('Raw response:', text);
+                    if (!text) {
+                        throw new Error('Empty response received');
+                    }
+                    try {
+                        return JSON.parse(text);
+                    } catch (e) {
+                        console.error('Failed to parse JSON:', e);
+                        throw new Error('Invalid JSON response: ' + text);
+                    }
+                });
+            })
             .then(result => {
-                console.log('Success:', result); // Vypíšeme si odpověď serveru do konzole
+                console.log('Parsed response:', result);
 
                 // 3. Zobrazíme zprávu o úspěchu (jako předtím)
                 formStatus.textContent = 'Thank you! Your message has been sent.'; // Nebo result.msg
@@ -116,10 +143,14 @@ if (contactForm) {
 
             })
             .catch((error) => {
-                console.error('Error:', error); // Zobrazíme případnou chybu při odesílání
+                console.error('Error details:', {
+                    message: error.message,
+                    stack: error.stack,
+                    name: error.name
+                });
 
                 // 4. Zobrazíme chybovou zprávu uživateli
-                formStatus.textContent = 'Oops! Something went wrong. Please try again later.';
+                formStatus.textContent = `Error: ${error.message}`;
                 formStatus.className = ''; // Odebereme zelenou třídu
                 // Můžeme přidat třídu pro chybu, např. .status-error
                 formStatus.style.backgroundColor = '#dc3545'; // Červená barva
