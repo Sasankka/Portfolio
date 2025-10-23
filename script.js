@@ -94,7 +94,8 @@ if (contactForm) {
             const jsonData = JSON.stringify(data);
             console.log('Sending JSON:', jsonData);
             
-            fetch('http://localhost:5000/send_message', {
+            // Až získáme URL z Render.com, nahradíme ji zde
+            fetch('https://portfolio-backend-flask.onrender.com/send_message', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
