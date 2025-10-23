@@ -77,18 +77,65 @@ document.addEventListener('DOMContentLoaded', () => {
     const statusTimeoutDuration = 5000;
     let statusTimeoutId = null;
 
-    if (contactForm) {
+if (contactForm) {
         contactForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            formStatus.textContent = 'Thank you! Your message has been sent.';
-            formStatus.className = 'status-success';
-            formStatus.style.display = 'block';
-            contactForm.reset();
-            if (statusTimeoutId) { clearTimeout(statusTimeoutId); }
-            statusTimeoutId = setTimeout(() => {
-                formStatus.textContent = ''; formStatus.className = '';
-                formStatus.style.display = 'none'; statusTimeoutId = null;
-            }, statusTimeoutDuration);
+            e.preventDefault(); // Zabráníme obnovení stránky
+
+            // 1. Získáme data z formuláře
+            const formData = new FormData(contactForm);
+            const data = {
+                name: formData.get('name'),
+                email: formData.get('email'),
+                message: formData.get('message')
+            };
+
+            // 2. Odešleme data na Flask server pomocí Fetch API
+            fetch('http://127.0.0.1:5000/send_message', { // Cesta definovaná v app.py
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json', // Říkáme, že posíláme JSON
+                },
+                body: JSON.stringify(data), // Převedeme data na JSON text
+            })
+            .then(response => response.json()) // Zpracujeme odpověď serveru (očekáváme JSON)
+            .then(result => {
+                console.log('Success:', result); // Vypíšeme si odpověď serveru do konzole
+
+                // 3. Zobrazíme zprávu o úspěchu (jako předtím)
+                formStatus.textContent = 'Thank you! Your message has been sent.'; // Nebo result.msg
+                formStatus.className = 'status-success';
+                formStatus.style.display = 'block';
+                contactForm.reset();
+
+                // Vyčištění zprávy po čase
+                if (statusTimeoutId) { clearTimeout(statusTimeoutId); }
+                statusTimeoutId = setTimeout(() => {
+                    formStatus.textContent = ''; formStatus.className = '';
+                    formStatus.style.display = 'none'; statusTimeoutId = null;
+                }, statusTimeoutDuration);
+
+            })
+            .catch((error) => {
+                console.error('Error:', error); // Zobrazíme případnou chybu při odesílání
+
+                // 4. Zobrazíme chybovou zprávu uživateli
+                formStatus.textContent = 'Oops! Something went wrong. Please try again later.';
+                formStatus.className = ''; // Odebereme zelenou třídu
+                // Můžeme přidat třídu pro chybu, např. .status-error
+                formStatus.style.backgroundColor = '#dc3545'; // Červená barva
+                formStatus.style.color = '#ffffff';
+                formStatus.style.display = 'block';
+
+                 // Necháme chybovou zprávu déle viditelnou
+                 if (statusTimeoutId) { clearTimeout(statusTimeoutId); }
+                 statusTimeoutId = setTimeout(() => {
+                     formStatus.textContent = '';
+                     formStatus.style.backgroundColor = ''; // Reset stylu
+                     formStatus.style.color = ''; // Reset stylu
+                     formStatus.style.display = 'none';
+                     statusTimeoutId = null;
+                 }, 8000); // 8 sekund
+            });
         });
     }
 
