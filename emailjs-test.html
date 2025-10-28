@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>EmailJS Test</title>
+</head>
+<body>
+    <h1>EmailJS Loading Test</h1>
+    <div id="status">Loading...</div>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/index.min.js"></script>
+    <script>
+        const statusDiv = document.getElementById('status');
+        let checkCount = 0;
+        
+        function checkEmailJS() {
+            checkCount++;
+            if (window.emailjs) {
+                statusDiv.innerHTML = `✅ EmailJS loaded successfully after ${checkCount} checks<br>Version: ${window.emailjs.version || 'unknown'}`;
+                statusDiv.style.color = 'green';
+                statusDiv.style.fontSize = '18px';
+            } else if (checkCount < 50) {
+                statusDiv.innerHTML = `Checking... (attempt ${checkCount})`;
+                setTimeout(checkEmailJS, 100);
+            } else {
+                statusDiv.innerHTML = `❌ EmailJS failed to load after ${checkCount} attempts`;
+                statusDiv.style.color = 'red';
+                statusDiv.style.fontSize = '18px';
+            }
+        }
+        
+        checkEmailJS();
+    </script>
+</body>
+</html>

@@ -77,10 +77,25 @@ document.addEventListener('DOMContentLoaded', () => {
     const statusTimeoutDuration = 5000;
     let statusTimeoutId = null;
 
-    // Check if EmailJS is available (should be by now)
-    if (!window.emailjs) {
-        console.warn('EmailJS library not available yet - will retry when form is submitted');
+    // Wait for EmailJS to be ready
+    let emailjsCheckRetries = 0;
+    function waitForEmailJSReady() {
+        if (window.emailjs) {
+            // EmailJS is initialized and ready
+            console.log('✓ EmailJS ready, form is now functional');
+            window.emailjsReady = true;
+        } else if (emailjsCheckRetries < 30) {
+            // Still waiting, try again soon
+            emailjsCheckRetries++;
+            setTimeout(waitForEmailJSReady, 100);
+        } else {
+            // Timeout - but don't break, set flag to retry on submit
+            console.warn('⚠ EmailJS took time to load, will retry on form submit');
+        }
     }
+    
+    // Start checking if EmailJS is ready
+    waitForEmailJSReady();
 
     if (contactForm) {
         contactForm.addEventListener('submit', (e) => {
@@ -101,90 +116,109 @@ document.addEventListener('DOMContentLoaded', () => {
 
             console.log('Sending data via EmailJS:', data);
 
-            // Check if EmailJS is available
+            // Check if EmailJS is available (with retry logic)
             if (!window.emailjs) {
-                console.error('EmailJS is not available');
-                formStatus.textContent = 'Error: Email service not available';
-                formStatus.className = '';
-                formStatus.style.backgroundColor = '#dc3545';
-                formStatus.style.color = '#ffffff';
-                formStatus.style.display = 'block';
-                submitBtn.disabled = false;
-                submitBtn.textContent = 'Send Message';
+                // Try once more if it's not available
+                let retryCount = 0;
+                const retrySubmit = setInterval(() => {
+                    retryCount++;
+                    if (window.emailjs) {
+                        clearInterval(retrySubmit);
+                        // Proceed with sending
+                        sendEmail();
+                    } else if (retryCount > 10) {
+                        clearInterval(retrySubmit);
+                        // Give up after retrying
+                        console.error('EmailJS is not available after retries');
+                        formStatus.textContent = 'Error: Email service not responding. Please try again.';
+                        formStatus.className = '';
+                        formStatus.style.backgroundColor = '#dc3545';
+                        formStatus.style.color = '#ffffff';
+                        formStatus.style.display = 'block';
+                        submitBtn.disabled = false;
+                        submitBtn.textContent = 'Send Message';
+                    }
+                }, 200);
                 return;
             }
 
-            // 2. Odešleme email přes EmailJS
-            window.emailjs.send(
-                'service_7bnr8fs',        // Your EmailJS service ID
-                'template_portfolio',       // Your EmailJS template ID
-                {
-                    from_name: data.name,
-                    from_email: data.email,
-                    message: data.message,
-                    to_email: 'habiballahportfolioweb@gmail.com'  // Your recipient email
-                }
-            )
-            .then(result => {
-                console.log('Email sent successfully:', result);
+            // Send email immediately if EmailJS is ready
+            sendEmail();
 
-                // 3. Zobrazíme zprávu o úspěchu
-                formStatus.textContent = 'Thank you! Your message has been sent.';
-                formStatus.className = 'status-success';
-                formStatus.style.backgroundColor = '#28a745';
-                formStatus.style.color = '#ffffff';
-                formStatus.style.display = 'block';
-                formStatus.style.padding = '15px';
-                formStatus.style.borderRadius = '4px';
-                formStatus.style.marginTop = '15px';
-                contactForm.reset();
-                
-                // Re-enable submit button
-                submitBtn.disabled = false;
-                submitBtn.textContent = 'Send Message';
+            // Function to actually send the email
+            function sendEmail() {
+                // 2. Odešleme email přes EmailJS
+                window.emailjs.send(
+                    'service_7bnr8fs',        // Your EmailJS service ID
+                    'template_portfolio',       // Your EmailJS template ID
+                    {
+                        from_name: data.name,
+                        from_email: data.email,
+                        message: data.message,
+                        to_email: 'habiballahportfolioweb@gmail.com'  // Your recipient email
+                    }
+                )
+                .then(result => {
+                    console.log('Email sent successfully:', result);
 
-                // Vyčištění zprávy po čase
-                if (statusTimeoutId) { clearTimeout(statusTimeoutId); }
-                statusTimeoutId = setTimeout(() => {
-                    formStatus.textContent = '';
+                    // 3. Zobrazíme zprávu o úspěchu
+                    formStatus.textContent = 'Thank you! Your message has been sent.';
+                    formStatus.className = 'status-success';
+                    formStatus.style.backgroundColor = '#28a745';
+                    formStatus.style.color = '#ffffff';
+                    formStatus.style.display = 'block';
+                    formStatus.style.padding = '15px';
+                    formStatus.style.borderRadius = '4px';
+                    formStatus.style.marginTop = '15px';
+                    contactForm.reset();
+                    
+                    // Re-enable submit button
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Send Message';
+
+                    // Vyčištění zprávy po čase
+                    if (statusTimeoutId) { clearTimeout(statusTimeoutId); }
+                    statusTimeoutId = setTimeout(() => {
+                        formStatus.textContent = '';
+                        formStatus.className = '';
+                        formStatus.style.backgroundColor = '';
+                        formStatus.style.color = '';
+                        formStatus.style.display = 'none';
+                        statusTimeoutId = null;
+                    }, statusTimeoutDuration);
+                })
+                .catch((error) => {
+                    console.error('Error sending email:', {
+                        message: error.message,
+                        stack: error.stack,
+                        name: error.name
+                    });
+
+                    // 4. Zobrazíme chybovou zprávu uživateli
+                    formStatus.textContent = `Error: ${error.message || 'Failed to send message'}`;
                     formStatus.className = '';
-                    formStatus.style.backgroundColor = '';
-                    formStatus.style.color = '';
-                    formStatus.style.display = 'none';
-                    statusTimeoutId = null;
-                }, statusTimeoutDuration);
-            })
-            .catch((error) => {
-                console.error('Error sending email:', {
-                    message: error.message,
-                    stack: error.stack,
-                    name: error.name
+                    formStatus.style.backgroundColor = '#dc3545';
+                    formStatus.style.color = '#ffffff';
+                    formStatus.style.display = 'block';
+                    formStatus.style.padding = '15px';
+                    formStatus.style.borderRadius = '4px';
+                    formStatus.style.marginTop = '15px';
+                    
+                    // Re-enable submit button
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Send Message';
+
+                    // Necháme chybovou zprávu déle viditelnou
+                    if (statusTimeoutId) { clearTimeout(statusTimeoutId); }
+                    statusTimeoutId = setTimeout(() => {
+                        formStatus.textContent = '';
+                        formStatus.style.backgroundColor = '';
+                        formStatus.style.color = '';
+                        formStatus.style.display = 'none';
+                        statusTimeoutId = null;
+                    }, 8000);
                 });
-
-                // 4. Zobrazíme chybovou zprávu uživateli
-                formStatus.textContent = `Error: ${error.message || 'Failed to send message'}`;
-                formStatus.className = '';
-                formStatus.style.backgroundColor = '#dc3545';
-                formStatus.style.color = '#ffffff';
-                formStatus.style.display = 'block';
-                formStatus.style.padding = '15px';
-                formStatus.style.borderRadius = '4px';
-                formStatus.style.marginTop = '15px';
-                
-                // Re-enable submit button
-                submitBtn.disabled = false;
-                submitBtn.textContent = 'Send Message';
-
-                // Necháme chybovou zprávu déle viditelnou
-                if (statusTimeoutId) { clearTimeout(statusTimeoutId); }
-                statusTimeoutId = setTimeout(() => {
-                    formStatus.textContent = '';
-                    formStatus.style.backgroundColor = '';
-                    formStatus.style.color = '';
-                    formStatus.style.display = 'none';
-                    statusTimeoutId = null;
-                }, 8000);
-            });
+            }
         });
     }
 
