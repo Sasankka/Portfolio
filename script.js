@@ -77,7 +77,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const statusTimeoutDuration = 5000;
     let statusTimeoutId = null;
 
-if (contactForm) {
+    // Initialize EmailJS
+    // Replace with your public key from emailjs.com
+    emailjs.init('ihlv_qkqYTcY_gCw7');
+
+    if (contactForm) {
         contactForm.addEventListener('submit', (e) => {
             e.preventDefault(); // Zabráníme obnovení stránky
 
@@ -89,48 +93,24 @@ if (contactForm) {
                 message: formData.get('message')
             };
 
-            // 2. Odešleme data na Flask server pomocí Fetch API
-            console.log('Sending data:', data);
-            const jsonData = JSON.stringify(data);
-            console.log('Sending JSON:', jsonData);
-            
-            // Až získáme URL z Render.com, nahradíme ji zde
-            fetch('https://portfolio-backend-flask.onrender.com/send_message', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                },
-                mode: 'cors',
-                credentials: 'omit',
-                body: jsonData
-            })
-            .then(response => {
-                console.log('Response status:', response.status);
-                console.log('Response headers:', [...response.headers.entries()]);
-                
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                
-                return response.text().then(text => {
-                    console.log('Raw response:', text);
-                    if (!text) {
-                        throw new Error('Empty response received');
-                    }
-                    try {
-                        return JSON.parse(text);
-                    } catch (e) {
-                        console.error('Failed to parse JSON:', e);
-                        throw new Error('Invalid JSON response: ' + text);
-                    }
-                });
-            })
-            .then(result => {
-                console.log('Parsed response:', result);
+            console.log('Sending data via EmailJS:', data);
 
-                // 3. Zobrazíme zprávu o úspěchu (jako předtím)
-                formStatus.textContent = 'Thank you! Your message has been sent.'; // Nebo result.msg
+            // 2. Odešleme email přes EmailJS
+            emailjs.send(
+                'service_7bnr8fs',        // Your EmailJS service ID
+                'template_portfolio',       // Your EmailJS template ID
+                {
+                    from_name: data.name,
+                    from_email: data.email,
+                    message: data.message,
+                    to_email: 'habiballahportfolioweb@gmail.com'  // Your recipient email
+                }
+            )
+            .then(result => {
+                console.log('Email sent successfully:', result);
+
+                // 3. Zobrazíme zprávu o úspěchu
+                formStatus.textContent = 'Thank you! Your message has been sent.';
                 formStatus.className = 'status-success';
                 formStatus.style.display = 'block';
                 contactForm.reset();
@@ -138,35 +118,35 @@ if (contactForm) {
                 // Vyčištění zprávy po čase
                 if (statusTimeoutId) { clearTimeout(statusTimeoutId); }
                 statusTimeoutId = setTimeout(() => {
-                    formStatus.textContent = ''; formStatus.className = '';
-                    formStatus.style.display = 'none'; statusTimeoutId = null;
+                    formStatus.textContent = '';
+                    formStatus.className = '';
+                    formStatus.style.display = 'none';
+                    statusTimeoutId = null;
                 }, statusTimeoutDuration);
-
             })
             .catch((error) => {
-                console.error('Error details:', {
+                console.error('Error sending email:', {
                     message: error.message,
                     stack: error.stack,
                     name: error.name
                 });
 
                 // 4. Zobrazíme chybovou zprávu uživateli
-                formStatus.textContent = `Error: ${error.message}`;
-                formStatus.className = ''; // Odebereme zelenou třídu
-                // Můžeme přidat třídu pro chybu, např. .status-error
-                formStatus.style.backgroundColor = '#dc3545'; // Červená barva
+                formStatus.textContent = `Error: ${error.message || 'Failed to send message'}`;
+                formStatus.className = '';
+                formStatus.style.backgroundColor = '#dc3545';
                 formStatus.style.color = '#ffffff';
                 formStatus.style.display = 'block';
 
-                 // Necháme chybovou zprávu déle viditelnou
-                 if (statusTimeoutId) { clearTimeout(statusTimeoutId); }
-                 statusTimeoutId = setTimeout(() => {
-                     formStatus.textContent = '';
-                     formStatus.style.backgroundColor = ''; // Reset stylu
-                     formStatus.style.color = ''; // Reset stylu
-                     formStatus.style.display = 'none';
-                     statusTimeoutId = null;
-                 }, 8000); // 8 sekund
+                // Necháme chybovou zprávu déle viditelnou
+                if (statusTimeoutId) { clearTimeout(statusTimeoutId); }
+                statusTimeoutId = setTimeout(() => {
+                    formStatus.textContent = '';
+                    formStatus.style.backgroundColor = '';
+                    formStatus.style.color = '';
+                    formStatus.style.display = 'none';
+                    statusTimeoutId = null;
+                }, 8000);
             });
         });
     }
