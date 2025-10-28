@@ -77,12 +77,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const statusTimeoutDuration = 5000;
     let statusTimeoutId = null;
 
-    // Check if EmailJS is available
+    // Check if EmailJS is available (should be by now)
     if (!window.emailjs) {
-        console.error('EmailJS library not loaded!');
-        if (contactForm) {
-            contactForm.innerHTML += '<p style="color: red;">Contact form temporarily unavailable</p>';
-        }
+        console.warn('EmailJS library not available yet - will retry when form is submitted');
     }
 
     if (contactForm) {

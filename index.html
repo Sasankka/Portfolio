@@ -14,13 +14,25 @@
     <!-- EmailJS for client-side email sending -->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/index.min.js"></script>
     <script>
-        // Initialize EmailJS as soon as the library loads
-        (function() {
+        // Initialize EmailJS when ready
+        function initEmailJS() {
             if (window.emailjs) {
                 emailjs.init('ihlv_qkqYTcY_gCw7');
                 console.log('EmailJS initialized successfully');
+            } else {
+                // If not ready yet, wait a bit and try again
+                setTimeout(initEmailJS, 100);
             }
-        })();
+        }
+        
+        // Start initialization immediately
+        if (document.readyState === 'loading') {
+            // DOM still loading, wait for it
+            document.addEventListener('DOMContentLoaded', initEmailJS);
+        } else {
+            // DOM already loaded
+            initEmailJS();
+        }
     </script>
 </head>
 <body>
