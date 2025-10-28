@@ -77,13 +77,22 @@ document.addEventListener('DOMContentLoaded', () => {
     const statusTimeoutDuration = 5000;
     let statusTimeoutId = null;
 
-    // Initialize EmailJS
-    // Replace with your public key from emailjs.com
-    emailjs.init('ihlv_qkqYTcY_gCw7');
+    // Check if EmailJS is available
+    if (!window.emailjs) {
+        console.error('EmailJS library not loaded!');
+        if (contactForm) {
+            contactForm.innerHTML += '<p style="color: red;">Contact form temporarily unavailable</p>';
+        }
+    }
 
     if (contactForm) {
         contactForm.addEventListener('submit', (e) => {
             e.preventDefault(); // Zabráníme obnovení stránky
+            
+            // Disable button during submission
+            const submitBtn = contactForm.querySelector('.submit-btn');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Sending...';
 
             // 1. Získáme data z formuláře
             const formData = new FormData(contactForm);
@@ -95,8 +104,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
             console.log('Sending data via EmailJS:', data);
 
+            // Check if EmailJS is available
+            if (!window.emailjs) {
+                console.error('EmailJS is not available');
+                formStatus.textContent = 'Error: Email service not available';
+                formStatus.className = '';
+                formStatus.style.backgroundColor = '#dc3545';
+                formStatus.style.color = '#ffffff';
+                formStatus.style.display = 'block';
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Send Message';
+                return;
+            }
+
             // 2. Odešleme email přes EmailJS
-            emailjs.send(
+            window.emailjs.send(
                 'service_7bnr8fs',        // Your EmailJS service ID
                 'template_portfolio',       // Your EmailJS template ID
                 {
@@ -112,14 +134,25 @@ document.addEventListener('DOMContentLoaded', () => {
                 // 3. Zobrazíme zprávu o úspěchu
                 formStatus.textContent = 'Thank you! Your message has been sent.';
                 formStatus.className = 'status-success';
+                formStatus.style.backgroundColor = '#28a745';
+                formStatus.style.color = '#ffffff';
                 formStatus.style.display = 'block';
+                formStatus.style.padding = '15px';
+                formStatus.style.borderRadius = '4px';
+                formStatus.style.marginTop = '15px';
                 contactForm.reset();
+                
+                // Re-enable submit button
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Send Message';
 
                 // Vyčištění zprávy po čase
                 if (statusTimeoutId) { clearTimeout(statusTimeoutId); }
                 statusTimeoutId = setTimeout(() => {
                     formStatus.textContent = '';
                     formStatus.className = '';
+                    formStatus.style.backgroundColor = '';
+                    formStatus.style.color = '';
                     formStatus.style.display = 'none';
                     statusTimeoutId = null;
                 }, statusTimeoutDuration);
@@ -137,6 +170,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 formStatus.style.backgroundColor = '#dc3545';
                 formStatus.style.color = '#ffffff';
                 formStatus.style.display = 'block';
+                formStatus.style.padding = '15px';
+                formStatus.style.borderRadius = '4px';
+                formStatus.style.marginTop = '15px';
+                
+                // Re-enable submit button
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Send Message';
 
                 // Necháme chybovou zprávu déle viditelnou
                 if (statusTimeoutId) { clearTimeout(statusTimeoutId); }
